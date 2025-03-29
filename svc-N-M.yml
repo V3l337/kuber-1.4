@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-multitool-service
+spec:
+  selector:
+    app: web 
+  ports:
+  - name: nginx-port
+    protocol: TCP
+    port: 9001          # Порт, на котором сервис принимает запросы
+    targetPort: 80    # Порт, на который пересылает внутри пода (nginx)
+  - name: multitool-port
+    protocol: TCP
+    port: 9002       # Порт сервиса для multitool
+    targetPort: 8080  # Внутренний порт multitool
+  type: ClusterIP

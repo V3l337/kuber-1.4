@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-multitool-deployment
+  labels:
+    app: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+        - containerPort: 8080
+        command: ["/bin/sh", "-c", "httpd -p 8080 -h / & sleep infinity"]
+        # command: ["/bin/sh", "-c", "sed -i 's/listen 80/listen 8080/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
